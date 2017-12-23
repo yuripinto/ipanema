@@ -5,7 +5,7 @@
 Ipanema is an open source trading bot for cryptocurrencies that connects to populars exchanges for trading.
 Based on Python 3.
 
-## Importante notes
+## Important notes
 
 * **Use Ipanema at your own risk.**
 * This software is not a trading advisor.
