@@ -3,7 +3,7 @@
 ![Ipanema shoot](https://timeout.portal5g-media.com/contentFiles/image/rj/br/hoteis/Luxo/fasanohotel.jpg)
 
 Ipanema is an open source trading bot for cryptocurrencies that connects to populars exchanges for trading.
-Based on Python 3.
+Based on Python 3 with MongoDB.
 
 ## Important notes
 
