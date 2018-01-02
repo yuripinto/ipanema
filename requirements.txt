@@ -2,6 +2,8 @@ certifi==2017.11.5
 chardet==3.0.4
 colorama==0.3.9
 idna==2.6
+numpy==1.13.3
 pymongo==3.6.0
 requests==2.18.4
+TA-Lib==0.4.10
 urllib3==1.22
