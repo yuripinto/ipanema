@@ -16,6 +16,5 @@ if __name__ == '__main__':
               \/_/                                               """
     init(autoreset=True)
     print(Fore.GREEN + logo)
-    settings = Settings()
-    watcher = MarketWatcher(settings.ticker, settings.candle_time, settings.mongo_uri, settings.mongo_port)
+    watcher = MarketWatcher(Settings())
     watcher.start()

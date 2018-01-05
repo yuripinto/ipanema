@@ -9,13 +9,13 @@ import talib
 
 class MarketWatcher(Thread):
 
-    def __init__(self, ticker, candle_time, mongo_uri, mongo_port):
+    def __init__(self, settings):
         Thread.__init__(self)
         # Getting params
-        self.ticker = ticker
-        self.candle_time = candle_time
-        self.mongo_uri = mongo_uri
-        self.mongo_port = mongo_port
+        self.ticker = settings.ticker
+        self.candle_time = settings.candle_time
+        self.mongo_uri = settings.mongo_uri
+        self.mongo_port = settings.mongo_port
         # Connecting to database
         self.log("Connecting to MongoDB")
         self.client = MongoClient(self.mongo_uri, self.mongo_port)
@@ -26,6 +26,8 @@ class MarketWatcher(Thread):
         self.log("MarketWatcher started")
         self.log("Candle time: " + str(self.candle_time) + "(s)")
         self.rsi = None
+        #Loading trade api
+        self.trade_api = bitfinex.TradeAPI(settings.public_key, settings.private_key, settings.verbose)
 
     def run(self):
         self.watch()
@@ -33,11 +35,13 @@ class MarketWatcher(Thread):
     def watch(self):
         while (True):
             try:
+                # Getting ticket data
                 response = bitfinex.Client.ticker(self.ticker)
                 self.last = response['last']
                 self.update_database()
                 # Running strategy
                 rsi = self.get_RSI()
+                # Logging
                 rsi_trend = "loading"
                 if rsi > 0:
                     if rsi <= 30:
@@ -45,11 +49,21 @@ class MarketWatcher(Thread):
                     elif rsi >= 70:
                         rsi_trend = "sell"
                     else:
-                        rsi_trend = "no trend"
+                        rsi_trend = "no_trend"
                 self.log("(" + self.ticker + ") " + str(self.get_last()) + " (rsi) " + str(rsi) + " (rsi_trend) " + rsi_trend)
+                # Trade
+                self.trade(rsi_trend)
             except Exception as e:
                 self.log("Failed to load ticker data: " + str(e))
             time.sleep(self.candle_time)
+
+    def trade(self, trend):
+        if trend != "no_trend":
+            balance = self.trade_api.balance()
+            if trend == "buy":
+                pass
+            elif trend == "sell":
+                pass
 
     def get_last(self):
         return self.last
