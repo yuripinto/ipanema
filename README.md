@@ -10,7 +10,5 @@ Based on Python 3 with MongoDB.
 * **Use Ipanema at your own risk.**
 * This software is not a trading advisor.
 * The main target of project is just generate an automated plataform to buy/sell multiples cryptocurrencies.
+* [Access ipanema wiki for more informations](https://github.com/yuripinto/ipanema/wiki)
 
-## Setup
-Run ```pip3 install -r requirements.txt``` to configure Ipanema. <br />
-Start it running ```python3 main.py```
