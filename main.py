@@ -1,10 +1,7 @@
 from colorama import init, Fore
-from basics import financial
+from basics.financial import MarketWatcher
+from basics.settings import Settings
 
-CANDLE_TIME = 60
-MONGO_URI = "localhost"
-MONGO_PORT = 27017
-TICKER = "BTC/USD"
 
 if __name__ == '__main__':
     logo = """ ______                                                          
@@ -19,5 +16,5 @@ if __name__ == '__main__':
               \/_/                                               """
     init(autoreset=True)
     print(Fore.GREEN + logo)
-    watcher = financial.MarketWatcher(TICKER, CANDLE_TIME, MONGO_URI, MONGO_PORT)
+    watcher = MarketWatcher(Settings())
     watcher.start()
