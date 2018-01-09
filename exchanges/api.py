@@ -21,9 +21,9 @@ class TradeAPI():
     def balance(self):
         return self.client.fetch_balance()
 
-    def create_market_buy_order(self, ticker, amount):
-        return self.client.create_market_buy_order(ticker, amount)
+    def create_limit_buy_order(self, ticker, amount, limit):
+        return self.client.create_limit_buy_order(ticker, amount, limit)
 
-    def create_market_sell_order(self, ticker, amount):
-        return self.client.create_market_sell_order(ticker, amount)
+    def create_limit_sell_order(self, ticker, amount, limit):
+        return self.client.create_limit_buy_order(ticker, amount, limit)
 

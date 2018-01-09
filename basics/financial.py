@@ -27,7 +27,7 @@ class MarketWatcher(Thread):
             exit()
         # Starting watcher
         self.log("MarketWatcher started")
-        self.log("Candle time: " + str(self.candle_time) + "(s)")
+        self.log("Candle time: " + str(self.candle_time / 60) + "(m)")
         self.rsi = None
         # Loading trade api
         self.trade_api = api.TradeAPI(settings.public_key, settings.private_key, settings.verbose)
@@ -82,14 +82,14 @@ class MarketWatcher(Thread):
                     # Calculate coins amount to buy
                     self.log("Sending a buy order")
                     amount = money / last
-                    self.trade_api.create_market_buy_order(self.ticker, amount)
+                    self.trade_api.create_limit_buy_order(self.ticker, amount, self.get_last())
             elif trend == "sell":
                 if (coins * last) < 100:
                     self.log("Insufficient coins to sell")
                 else:
                     # Sell all coins
                     self.log("Sending a sell order")
-                    self.trade_api.create_market_sell_order(self.ticker, coins)
+                    self.trade_api.create_limit_sell_order(self.ticker, coins, self.get_last())
 
     def get_last(self):
         return self.last
@@ -97,7 +97,7 @@ class MarketWatcher(Thread):
     def get_RSI(self):
         history = []
         try:
-            for row in self.client.ipanema.history.find().sort('_id', pymongo.DESCENDING).limit(20):
+            for row in self.client.ipanema.history.find().sort('_id', pymongo.DESCENDING).limit(15):
                 history.insert(0, float(row['last_price']))
         except Exception as err:
             print(err)
